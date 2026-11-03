@@ -1,7 +1,9 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { ContactShadows, OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import { Suspense, useRef } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
+import type { RefObject } from 'react'
 import * as THREE from 'three'
+import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import { Model } from './Model'
 
 type SceneBeat = {
@@ -18,7 +20,7 @@ const sceneBeats: SceneBeat[] = [
     id: 'top',
     lidOpen: 0,
     position: [-0.2, 0.05, 0.25],
-    rotation: [0, 0.06, 0],
+    rotation: [0, 0.06, -0.42],
     cameraPosition: [9.5, 0.55, 0],
     target: [0, -1.35, 0],
   },
@@ -189,6 +191,7 @@ function FloatingProduct({
         url="/Macbook1.fbx"
         targetSize={4.25}
         lidOpenRef={lidOpenRef}
+        interactive={interactive}
       />
     </group>
   )
@@ -202,7 +205,7 @@ function StudioLighting() {
       <directionalLight position={[4, 6, 6]} intensity={2.2} castShadow />
       <directionalLight position={[-5, 2, -4]} intensity={1.15} color="#dbeafe" />
       <ContactShadows
-        position={[0, -1.85, 0]}
+        position={[0, -2.5, 0]}
         opacity={0.2}
         scale={9}
         blur={2.5}
@@ -212,15 +215,13 @@ function StudioLighting() {
   )
 }
 
-function ExplorerCamera({ lidOpen }: { lidOpen: number }) {
+function ExplorerCamera() {
   const width = useThree((state) => state.size.width)
-  const isClosed = lidOpen === 0
 
   return (
     <PerspectiveCamera
-      key={lidOpen}
       makeDefault
-      position={isClosed ? [9.5, -0.9, 0] : [4, 2.1, 7.6]}
+      position={[4, 2.1, 7.6]}
       fov={width <= 760 ? 56 : 42}
     />
   )
@@ -248,21 +249,81 @@ type ExplorerCanvasProps = {
   lidOpen: number
 }
 
+const defaultExplorerCameraPosition = new THREE.Vector3(4, 2.1, 7.6)
+const defaultExplorerTarget = new THREE.Vector3(0, 0, 0)
+
+function ExplorerViewReset({
+  resetToken,
+  controlsRef,
+}: {
+  resetToken: number
+  controlsRef: RefObject<OrbitControlsImpl | null>
+}) {
+  const camera = useThree((state) => state.camera)
+  const previousResetToken = useRef(resetToken)
+  const animationRef = useRef<{
+    elapsed: number
+    fromPosition: THREE.Vector3
+    fromTarget: THREE.Vector3
+    controlsWereEnabled: boolean
+  } | null>(null)
+
+  useEffect(() => {
+    if (previousResetToken.current === resetToken) return
+
+    const controls = controlsRef.current
+    if (!controls) return
+
+    previousResetToken.current = resetToken
+    animationRef.current = {
+      elapsed: 0,
+      fromPosition: camera.position.clone(),
+      fromTarget: controls.target.clone(),
+      controlsWereEnabled: animationRef.current?.controlsWereEnabled ?? controls.enabled,
+    }
+    controls.enabled = false
+  }, [camera, controlsRef, resetToken])
+
+  useFrame((_, delta) => {
+    const animation = animationRef.current
+    const controls = controlsRef.current
+    if (!animation || !controls) return
+
+    animation.elapsed = Math.min(animation.elapsed + delta, 0.7)
+    const progress = THREE.MathUtils.smoothstep(animation.elapsed, 0, 0.7)
+    camera.position.lerpVectors(
+      animation.fromPosition,
+      defaultExplorerCameraPosition,
+      progress,
+    )
+    controls.target.lerpVectors(animation.fromTarget, defaultExplorerTarget, progress)
+    controls.update()
+
+    if (animation.elapsed === 0.7) {
+      controls.enabled = animation.controlsWereEnabled
+      animationRef.current = null
+    }
+  })
+
+  return null
+}
+
 export function ExplorerCanvas({ resetToken, lidOpen }: ExplorerCanvasProps) {
+  const controlsRef = useRef<OrbitControlsImpl>(null)
+
   return (
     <Canvas
-      key={`${resetToken}-${lidOpen}`}
       dpr={[1, 1.75]}
       gl={{ alpha: true, antialias: true }}
     >
       <StudioLighting />
-      <ExplorerCamera lidOpen={lidOpen} />
+      <ExplorerCamera />
       <Suspense fallback={null}>
         <FloatingProduct interactive lidOpen={lidOpen} />
       </Suspense>
       <OrbitControls
-        key={lidOpen}
-        target={lidOpen === 0 ? [0, -1.4, 0] : [0, 0, 0]}
+        ref={controlsRef}
+        target={[0, 0, 0]}
         enableDamping
         enablePan={false}
         dampingFactor={0.08}
@@ -271,6 +332,7 @@ export function ExplorerCanvas({ resetToken, lidOpen }: ExplorerCanvasProps) {
         minPolarAngle={Math.PI / 5}
         maxPolarAngle={Math.PI / 1.75}
       />
+      <ExplorerViewReset resetToken={resetToken} controlsRef={controlsRef} />
     </Canvas>
   )
 }
