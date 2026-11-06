@@ -126,9 +126,40 @@ button {
   overflow: clip;
 }
 
+.product-story::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(72, 105, 154, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(72, 105, 154, 0.045) 1px, transparent 1px);
+  background-size: 88px 88px;
+  animation: grid-drift 60s linear infinite;
+  content: "";
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 82%, transparent);
+  pointer-events: none;
+}
+
+.product-story::after {
+  position: absolute;
+  z-index: 0;
+  top: 50svh;
+  right: clamp(10px, 8vw, 130px);
+  width: clamp(340px, 48vw, 700px);
+  aspect-ratio: 1;
+  transform: translateY(-50%) rotate(-12deg);
+  background:
+    radial-gradient(ellipse, transparent 62%, rgba(72, 105, 154, 0.075) 62.15% 62.35%, transparent 62.5%) center / 100% 100% no-repeat,
+    radial-gradient(ellipse, transparent 62%, rgba(72, 105, 154, 0.045) 62.15% 62.35%, transparent 62.5%) center / 78% 112% no-repeat,
+    radial-gradient(ellipse, transparent 62%, rgba(72, 105, 154, 0.035) 62.15% 62.35%, transparent 62.5%) center / 112% 78% no-repeat;
+  animation: orbit-drift 30s ease-in-out infinite alternate;
+  content: "";
+  pointer-events: none;
+}
+
 .scroll-scene {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   top: 0;
   right: 2vw;
   width: min(86vw, 1100px);
@@ -143,7 +174,6 @@ button {
 .hero-section,
 .story-section {
   position: relative;
-  z-index: 2;
   display: flex;
   min-height: max(760px, 100svh);
   align-items: center;
@@ -155,21 +185,55 @@ button {
   padding-left: max(5vw, calc((100vw - 1320px) / 2));
 }
 
+.story-section::before,
+.details-introduction::before {
+  position: absolute;
+  top: 0;
+  right: max(8vw, calc((100vw - 1200px) / 2));
+  left: max(8vw, calc((100vw - 1200px) / 2));
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(72, 105, 154, 0.14) 18%, rgba(72, 105, 154, 0.14) 82%, transparent);
+  content: "";
+  pointer-events: none;
+}
+
+.story-section::after {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  right: clamp(4px, 11vw, 170px);
+  width: clamp(220px, 31vw, 440px);
+  aspect-ratio: 1.18;
+  transform: translateY(-50%) rotate(14deg);
+  border: 1px solid rgba(72, 105, 154, 0.045);
+  border-radius: 48% 52% 42% 58% / 59% 43% 57% 41%;
+  box-shadow:
+    0 0 0 28px rgba(72, 105, 154, 0.008),
+    0 0 0 29px rgba(72, 105, 154, 0.025),
+    0 0 0 62px rgba(72, 105, 154, 0.006),
+    0 0 0 63px rgba(72, 105, 154, 0.017);
+  animation: orbit-drift 26s ease-in-out infinite alternate;
+  content: "";
+  pointer-events: none;
+}
+
+.story-section:nth-of-type(even)::after {
+  right: auto;
+  left: clamp(10px, 13vw, 190px);
+  width: clamp(190px, 25vw, 350px);
+  transform: translateY(-50%) rotate(-18deg);
+  border-radius: 55% 45% 59% 41% / 42% 58% 44% 56%;
+  animation-delay: -9s;
+  animation-direction: alternate-reverse;
+  animation-duration: 32s;
+}
+
 .hero-copy,
 .story-copy {
   position: relative;
+  z-index: 3;
   isolation: isolate;
   width: min(46%, 520px);
-}
-
-.story-copy::before {
-  position: absolute;
-  z-index: -1;
-  inset: -34px -28px;
-  border-radius: 32px;
-  background: radial-gradient(ellipse, rgba(247, 248, 250, 0.96) 28%, rgba(247, 248, 250, 0.78) 64%, transparent 100%);
-  content: "";
-  pointer-events: none;
 }
 
 .eyebrow {
@@ -244,6 +308,7 @@ button {
 
 .hero-caption {
   position: absolute;
+  z-index: 3;
   right: 8vw;
   bottom: 76px;
   display: flex;
@@ -303,7 +368,26 @@ button {
     #f6f7f9;
 }
 
+.explorer-section::before {
+  position: absolute;
+  top: 10%;
+  left: max(4vw, calc((100vw - 1300px) / 2));
+  width: clamp(220px, 27vw, 380px);
+  aspect-ratio: 1;
+  transform: rotate(-12deg);
+  border: 1px solid rgba(72, 105, 154, 0.055);
+  border-radius: 44% 56% 51% 49% / 52% 43% 57% 48%;
+  box-shadow:
+    0 0 0 30px rgba(72, 105, 154, 0.01),
+    0 0 0 31px rgba(72, 105, 154, 0.024);
+  animation: orbit-drift 34s ease-in-out infinite alternate-reverse;
+  content: "";
+  pointer-events: none;
+}
+
 .explorer-heading {
+  position: relative;
+  z-index: 1;
   text-align: center;
 }
 
@@ -323,6 +407,8 @@ button {
 }
 
 .explorer-card {
+  position: relative;
+  z-index: 1;
   max-width: 1200px;
   margin: 54px auto 0;
   padding: 14px;
@@ -430,6 +516,44 @@ button {
   text-align: center;
 }
 
+.details-hero::before {
+  position: absolute;
+  top: -24%;
+  left: 50%;
+  width: min(92vw, 1060px);
+  aspect-ratio: 1.14;
+  transform: translateX(-50%) rotate(-9deg);
+  border: 1px solid rgba(72, 105, 154, 0.075);
+  border-radius: 47% 53% 59% 41% / 48% 43% 57% 52%;
+  box-shadow:
+    0 0 0 42px rgba(72, 105, 154, 0.014),
+    0 0 0 43px rgba(72, 105, 154, 0.04),
+    0 0 0 92px rgba(72, 105, 154, 0.01),
+    0 0 0 93px rgba(72, 105, 154, 0.026);
+  animation: orbit-drift 38s ease-in-out infinite alternate;
+  content: "";
+  pointer-events: none;
+}
+
+.details-hero::after {
+  position: absolute;
+  top: 18%;
+  right: 12%;
+  width: clamp(200px, 25vw, 340px);
+  aspect-ratio: 1.2;
+  transform: rotate(18deg);
+  border: 1px solid rgba(72, 105, 154, 0.04);
+  border-radius: 51% 49% 38% 62% / 55% 43% 57% 45%;
+  animation: orbit-drift 27s ease-in-out -8s infinite alternate-reverse;
+  content: "";
+  pointer-events: none;
+}
+
+.details-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
 .details-hero > .eyebrow {
   margin-bottom: 20px;
 }
@@ -477,6 +601,7 @@ button {
 }
 
 .details-introduction {
+  position: relative;
   max-width: 850px;
   margin: 0 auto;
   padding: 140px 28px 112px;
@@ -715,6 +840,17 @@ button {
     padding: 150px 28px 90px;
   }
 
+  .product-story::after {
+    right: -32vw;
+    width: 92vw;
+  }
+
+  .story-section::before,
+  .details-introduction::before {
+    right: 28px;
+    left: 28px;
+  }
+
   .hero-copy,
   .story-copy {
     width: min(88%, 480px);
@@ -801,5 +937,23 @@ button {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes grid-drift {
+  to {
+    background-position: 88px 88px;
+  }
+}
+
+@keyframes orbit-drift {
+  from {
+    rotate: -2deg;
+    translate: 0 0;
+  }
+
+  to {
+    rotate: 2deg;
+    translate: 0 -10px;
   }
 }
