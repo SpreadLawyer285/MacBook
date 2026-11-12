@@ -63,7 +63,7 @@ function App() {
               eyebrow="The complete picture"
               title="Beautiful from every side."
               description="A closer look at the details, materials, and shape that make the MacBook feel at home anywhere."
-              interactive
+              inverted
             />
             <StorySection
               id="pro-line"
@@ -71,7 +71,7 @@ function App() {
               eyebrow="For your biggest ideas"
               title="Meet the MacBook Pro line."
               description="A closer look at the design of MacBook Pro, made for ambitious projects and the people who bring them to life."
-              interactive
+              inverted
             />
           </div>
 

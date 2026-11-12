@@ -74,14 +74,14 @@ button {
   margin: 0 auto;
 }
 
-body:has(.scroll-scene--interactive) .topbar {
+body:has(.scroll-scene--inverted) .topbar {
   border-color: rgba(215, 221, 231, 0.16);
   background: rgba(31, 33, 38, 0.78);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.24);
   color: #f4f5f7;
 }
 
-body:has(.scroll-scene--interactive) .top-links {
+body:has(.scroll-scene--inverted) .top-links {
   color: #d0d4dc;
 }
 
@@ -178,17 +178,9 @@ body:has(.scroll-scene--interactive) .top-links {
   pointer-events: none;
 }
 
-.scroll-scene--interactive {
-  pointer-events: auto;
-}
-
 .scroll-scene canvas {
   display: block;
   pointer-events: none;
-}
-
-.scroll-scene--interactive canvas {
-  pointer-events: auto;
 }
 
 .hero-section,
@@ -429,11 +421,11 @@ body:has(.scroll-scene--interactive) .top-links {
   min-height: max(720px, 95svh);
 }
 
-.story-section--interactive {
+.story-section--inverted {
   background: #15171b;
 }
 
-.story-section--interactive::before {
+.story-section--inverted::before {
   background: linear-gradient(
     90deg,
     transparent,
@@ -443,7 +435,7 @@ body:has(.scroll-scene--interactive) .top-links {
   );
 }
 
-.story-section--interactive::after {
+.story-section--inverted::after {
   border-color: rgba(198, 211, 232, 0.11);
   box-shadow:
     0 0 0 28px rgba(198, 211, 232, 0.015),
@@ -452,40 +444,25 @@ body:has(.scroll-scene--interactive) .top-links {
     0 0 0 63px rgba(198, 211, 232, 0.05);
 }
 
-.story-section--interactive .story-number {
+.story-section--inverted .story-number {
   color: #aeb4bf;
 }
 
-.story-section--interactive .story-number span {
+.story-section--inverted .story-number span {
   background: #6b717c;
 }
 
-.story-section--interactive .eyebrow {
+.story-section--inverted .eyebrow {
   color: #b7bdc7;
 }
 
-.story-section--interactive .story-copy h2 {
+.story-section--inverted .story-copy h2 {
   color: #f4f5f7;
   text-shadow: none;
 }
 
-.story-section--interactive .story-description {
+.story-section--inverted .story-description {
   color: #b7bdc7;
-}
-
-.story-interaction-hint {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 24px 0 0;
-  color: #d3d7de;
-  font-size: 0.86rem;
-  font-weight: 550;
-}
-
-.story-interaction-hint span {
-  color: #8eaff0;
-  font-size: 1.2rem;
 }
 
 .story-number {

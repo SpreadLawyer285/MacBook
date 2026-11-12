@@ -4,7 +4,7 @@ type StorySectionProps = {
   eyebrow: string
   title: string
   description: string
-  interactive?: boolean
+  inverted?: boolean
 }
 
 export function StorySection({
@@ -13,11 +13,11 @@ export function StorySection({
   eyebrow,
   title,
   description,
-  interactive = false,
+  inverted = false,
 }: StorySectionProps) {
   return (
     <section
-      className={`story-section${interactive ? ' story-section--interactive' : ''}`}
+      className={`story-section${inverted ? ' story-section--inverted' : ''}`}
       id={id}
     >
       <div className="story-copy">
@@ -25,12 +25,6 @@ export function StorySection({
         <p className="eyebrow">{eyebrow}</p>
         <h2>{title}</h2>
         <p className="story-description">{description}</p>
-        {interactive && (
-          <p className="story-interaction-hint">
-            <span aria-hidden="true">↔</span>
-            Drag to rotate
-          </p>
-        )}
       </div>
     </section>
   )
