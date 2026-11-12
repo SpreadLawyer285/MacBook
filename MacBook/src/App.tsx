@@ -17,6 +17,16 @@ function App() {
       ) : (
         <main>
           <div className="product-story" id="product-story">
+            <div className="landing-lines" aria-hidden="true">
+              <span className="landing-line landing-line--1" />
+              <span className="landing-line landing-line--2" />
+              <span className="landing-line landing-line--3" />
+              <span className="landing-line landing-line--4" />
+              <span className="landing-line landing-line--5" />
+              <span className="landing-line landing-line--6" />
+              <span className="landing-line landing-line--7" />
+              <span className="landing-line landing-line--8" />
+            </div>
             <ProductScene />
             <HeroSection />
             <StorySection
@@ -53,6 +63,7 @@ function App() {
               eyebrow="The complete picture"
               title="Beautiful from every side."
               description="A closer look at the details, materials, and shape that make the MacBook feel at home anywhere."
+              interactive
             />
             <StorySection
               id="pro-line"
@@ -60,6 +71,7 @@ function App() {
               eyebrow="For your biggest ideas"
               title="Meet the MacBook Pro line."
               description="A closer look at the design of MacBook Pro, made for ambitious projects and the people who bring them to life."
+              interactive
             />
           </div>
 

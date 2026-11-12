@@ -74,6 +74,17 @@ button {
   margin: 0 auto;
 }
 
+body:has(.scroll-scene--interactive) .topbar {
+  border-color: rgba(215, 221, 231, 0.16);
+  background: rgba(31, 33, 38, 0.78);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.24);
+  color: #f4f5f7;
+}
+
+body:has(.scroll-scene--interactive) .top-links {
+  color: #d0d4dc;
+}
+
 .brand-mark {
   display: inline-flex;
   align-items: center;
@@ -167,8 +178,17 @@ button {
   pointer-events: none;
 }
 
+.scroll-scene--interactive {
+  pointer-events: auto;
+}
+
 .scroll-scene canvas {
   display: block;
+  pointer-events: none;
+}
+
+.scroll-scene--interactive canvas {
+  pointer-events: auto;
 }
 
 .hero-section,
@@ -183,6 +203,85 @@ button {
 .hero-section {
   min-height: 100svh;
   padding-left: max(5vw, calc((100vw - 1320px) / 2));
+}
+
+.landing-lines {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.landing-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(72, 105, 154, 0.36) 28%, rgba(72, 105, 154, 0.36) 72%, transparent);
+  clip-path: inset(0 100% 0 0);
+  animation: landing-line-sweep 14s ease-in-out infinite;
+}
+
+.landing-line--1 {
+  top: 5%;
+  left: -14%;
+  width: 112%;
+  transform: rotate(20deg);
+}
+
+.landing-line--2 {
+  top: 17%;
+  left: 16%;
+  width: 94%;
+  transform: rotate(20deg);
+  animation-delay: -8s;
+}
+
+.landing-line--3 {
+  top: 30%;
+  left: -8%;
+  width: 108%;
+  transform: rotate(20deg);
+  animation-delay: -3s;
+}
+
+.landing-line--4 {
+  top: 43%;
+  left: 12%;
+  width: 96%;
+  transform: rotate(20deg);
+  animation-delay: -11s;
+}
+
+.landing-line--5 {
+  top: 57%;
+  left: -10%;
+  width: 110%;
+  transform: rotate(20deg);
+  animation-delay: -5s;
+}
+
+.landing-line--6 {
+  top: 70%;
+  left: 10%;
+  width: 102%;
+  transform: rotate(20deg);
+  animation-delay: -9s;
+}
+
+.landing-line--7 {
+  top: 83%;
+  left: -12%;
+  width: 112%;
+  transform: rotate(20deg);
+  animation-delay: -2s;
+}
+
+.landing-line--8 {
+  top: 95%;
+  left: 18%;
+  width: 92%;
+  transform: rotate(20deg);
+  animation-delay: -6s;
 }
 
 .story-section::before,
@@ -263,12 +362,13 @@ button {
   margin: 0;
   color: #1d1d1f;
   font-weight: 650;
-  letter-spacing: -0.075em;
-  line-height: 0.98;
+  letter-spacing: -0.05em;
+  line-height: 1.04;
 }
 
 .hero-copy h1 {
-  font-size: clamp(4.5rem, 8.3vw, 8.3rem);
+  font-size: clamp(3.75rem, 7vw, 6.5rem);
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.8);
 }
 
 .hero-text,
@@ -329,6 +429,65 @@ button {
   min-height: max(720px, 95svh);
 }
 
+.story-section--interactive {
+  background: #15171b;
+}
+
+.story-section--interactive::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(198, 211, 232, 0.18) 18%,
+    rgba(198, 211, 232, 0.18) 82%,
+    transparent
+  );
+}
+
+.story-section--interactive::after {
+  border-color: rgba(198, 211, 232, 0.11);
+  box-shadow:
+    0 0 0 28px rgba(198, 211, 232, 0.015),
+    0 0 0 29px rgba(198, 211, 232, 0.07),
+    0 0 0 62px rgba(198, 211, 232, 0.012),
+    0 0 0 63px rgba(198, 211, 232, 0.05);
+}
+
+.story-section--interactive .story-number {
+  color: #aeb4bf;
+}
+
+.story-section--interactive .story-number span {
+  background: #6b717c;
+}
+
+.story-section--interactive .eyebrow {
+  color: #b7bdc7;
+}
+
+.story-section--interactive .story-copy h2 {
+  color: #f4f5f7;
+  text-shadow: none;
+}
+
+.story-section--interactive .story-description {
+  color: #b7bdc7;
+}
+
+.story-interaction-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0 0;
+  color: #d3d7de;
+  font-size: 0.86rem;
+  font-weight: 550;
+}
+
+.story-interaction-hint span {
+  color: #8eaff0;
+  font-size: 1.2rem;
+}
+
 .story-number {
   display: flex;
   align-items: center;
@@ -351,7 +510,8 @@ button {
 
 .story-copy h2 {
   max-width: 560px;
-  font-size: clamp(3.2rem, 6.2vw, 6rem);
+  font-size: clamp(2.75rem, 5vw, 4.75rem);
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.8);
 }
 
 .story-description {
@@ -857,7 +1017,7 @@ button {
   }
 
   .hero-copy h1 {
-    font-size: clamp(4rem, 16vw, 6.5rem);
+    font-size: clamp(3.5rem, 13vw, 5rem);
   }
 
   .hero-text,
@@ -867,7 +1027,7 @@ button {
   }
 
   .story-copy h2 {
-    font-size: clamp(3rem, 13vw, 5rem);
+    font-size: clamp(2.75rem, 10vw, 4rem);
   }
 
   .hero-caption {
@@ -955,5 +1115,24 @@ button {
   to {
     rotate: 2deg;
     translate: 0 -10px;
+  }
+}
+
+@keyframes landing-line-sweep {
+  0%,
+  12% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+
+  48% {
+    clip-path: inset(0 0 0 0);
+    opacity: 0.9;
+  }
+
+  72%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 0;
   }
 }

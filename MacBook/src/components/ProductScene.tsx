@@ -9,6 +9,7 @@ import { Model } from './Model'
 type SceneBeat = {
   id: string
   lidOpen: number
+  manualControl: number
   position: [number, number, number]
   rotation: [number, number, number]
   cameraPosition: [number, number, number]
@@ -19,6 +20,7 @@ const sceneBeats: SceneBeat[] = [
   {
     id: 'top',
     lidOpen: 0,
+    manualControl: 0,
     position: [-0.2, 0.05, 0.25],
     rotation: [0, 0.06, -0.42],
     cameraPosition: [9.5, 0.55, 0],
@@ -27,6 +29,7 @@ const sceneBeats: SceneBeat[] = [
   {
     id: 'design',
     lidOpen: 1,
+    manualControl: 0,
     position: [-0.2, 0.3, 0],
     rotation: [-0.1, -0.18, 0.02],
     cameraPosition: [0, 0.3, 8.6],
@@ -35,6 +38,7 @@ const sceneBeats: SceneBeat[] = [
   {
     id: 'keyboard',
     lidOpen: 1,
+    manualControl: 0,
     position: [0.32, -0.12, 0],
     rotation: [-0.12, -0.52, 0.02],
     cameraPosition: [0, 3.8, 5.7],
@@ -43,6 +47,7 @@ const sceneBeats: SceneBeat[] = [
   {
     id: 'trackpad',
     lidOpen: 1,
+    manualControl: 0,
     position: [0.45, -0.22, 0],
     rotation: [-0.12, -0.52, -0.02],
     cameraPosition: [1.2, 3.3, 2],
@@ -50,7 +55,8 @@ const sceneBeats: SceneBeat[] = [
   },
   {
     id: 'ports',
-    lidOpen: 1,
+    lidOpen: 0,
+    manualControl: 0,
     position: [0.22, -0.05, 0],
     rotation: [0.05, 1.28, 0],
     cameraPosition: [1, 0.5, 7.1],
@@ -59,6 +65,7 @@ const sceneBeats: SceneBeat[] = [
   {
     id: 'rotation',
     lidOpen: 1,
+    manualControl: 1,
     position: [0.12, 0.05, 0],
     rotation: [0.16, 3.45, 0.02],
     cameraPosition: [0, 0.5, 8.4],
@@ -67,6 +74,7 @@ const sceneBeats: SceneBeat[] = [
   {
     id: 'pro-line',
     lidOpen: 1,
+    manualControl: 1,
     position: [0.2, 0.12, 0],
     rotation: [-0.06, 5.65, 0],
     cameraPosition: [0, 0.35, 8.8],
@@ -115,6 +123,11 @@ function getCurrentBeat(): SceneBeat {
     position: blendVector(previous.beat.position, next.beat.position, amount),
     rotation: blendVector(previous.beat.rotation, next.beat.rotation, amount),
     lidOpen: THREE.MathUtils.lerp(previous.beat.lidOpen, next.beat.lidOpen, amount),
+    manualControl: THREE.MathUtils.lerp(
+      previous.beat.manualControl,
+      next.beat.manualControl,
+      amount,
+    ),
     cameraPosition: blendVector(previous.beat.cameraPosition, next.beat.cameraPosition, amount),
     target: blendVector(previous.beat.target, next.beat.target, amount),
   }
@@ -123,13 +136,25 @@ function getCurrentBeat(): SceneBeat {
 function FloatingProduct({
   interactive = false,
   lidOpen = interactive ? 1 : 0,
+  controlsRef,
+  sceneElementRef,
 }: {
   interactive?: boolean
   lidOpen?: number
+  controlsRef?: RefObject<OrbitControlsImpl | null>
+  sceneElementRef?: RefObject<HTMLDivElement | null>
 }) {
   const productRef = useRef<THREE.Group>(null)
   const targetRef = useRef(new THREE.Vector3())
   const lidOpenRef = useRef(interactive ? 1 : 0)
+  const manualControlStartedRef = useRef(false)
+
+  useEffect(
+    () => () => {
+      sceneElementRef?.current?.classList.remove('scroll-scene--interactive')
+    },
+    [sceneElementRef],
+  )
 
   useFrame((state, delta) => {
     const product = productRef.current
@@ -141,48 +166,66 @@ function FloatingProduct({
       return
     }
 
-    const explorer = document.getElementById('explore')
     const pose = getCurrentBeat()
     lidOpenRef.current = pose.lidOpen
     const elapsed = state.clock.elapsedTime
-    const explorerBounds = explorer?.getBoundingClientRect()
+    const manualControlActive = pose.manualControl >= 0.99
+    const explorerBounds = document
+      .getElementById('explore')
+      ?.getBoundingClientRect()
     const explorerIsVisible = explorerBounds
       ? explorerBounds.top < 0 && explorerBounds.bottom > 0
       : false
+    const storyControlsActive = manualControlActive && !explorerIsVisible
+    const controls = controlsRef?.current
+    if (controls) {
+      sceneElementRef?.current?.classList.toggle(
+        'scroll-scene--interactive',
+        storyControlsActive,
+      )
+      if (storyControlsActive && !manualControlStartedRef.current) {
+        controls.target.copy(targetRef.current)
+        controls.update()
+      }
+    }
+    manualControlStartedRef.current = storyControlsActive
     product.visible = !explorerIsVisible
     product.position.x = THREE.MathUtils.damp(product.position.x, pose.position[0], 7, delta)
     product.position.y = THREE.MathUtils.damp(
       product.position.y,
-      pose.position[1] + Math.sin(elapsed * 1.25) * 0.07,
+      pose.position[1] +
+        Math.sin(elapsed * 1.25) * 0.07 * (1 - pose.manualControl),
       7,
       delta,
     )
     product.position.z = THREE.MathUtils.damp(product.position.z, pose.position[2], 7, delta)
-    product.rotation.x = THREE.MathUtils.damp(product.rotation.x, pose.rotation[0], 7, delta)
-    product.rotation.y = THREE.MathUtils.damp(product.rotation.y, pose.rotation[1], 7, delta)
-    product.rotation.z = THREE.MathUtils.damp(product.rotation.z, pose.rotation[2], 7, delta)
-    state.camera.position.x = THREE.MathUtils.damp(
-      state.camera.position.x,
-      pose.cameraPosition[0],
-      5,
-      delta,
-    )
-    state.camera.position.y = THREE.MathUtils.damp(
-      state.camera.position.y,
-      pose.cameraPosition[1],
-      5,
-      delta,
-    )
-    state.camera.position.z = THREE.MathUtils.damp(
-      state.camera.position.z,
-      pose.cameraPosition[2],
-      5,
-      delta,
-    )
-    targetRef.current.x = THREE.MathUtils.damp(targetRef.current.x, pose.target[0], 5, delta)
-    targetRef.current.y = THREE.MathUtils.damp(targetRef.current.y, pose.target[1], 5, delta)
-    targetRef.current.z = THREE.MathUtils.damp(targetRef.current.z, pose.target[2], 5, delta)
-    state.camera.lookAt(targetRef.current)
+    product.rotation.x = THREE.MathUtils.damp(product.rotation.x, pose.rotation[0], 1.5, delta)
+    product.rotation.y = THREE.MathUtils.damp(product.rotation.y, pose.rotation[1], 1.5, delta)
+    product.rotation.z = THREE.MathUtils.damp(product.rotation.z, pose.rotation[2], 1.5, delta)
+    if (!manualControlActive) {
+      state.camera.position.x = THREE.MathUtils.damp(
+        state.camera.position.x,
+        pose.cameraPosition[0],
+        5,
+        delta,
+      )
+      state.camera.position.y = THREE.MathUtils.damp(
+        state.camera.position.y,
+        pose.cameraPosition[1],
+        5,
+        delta,
+      )
+      state.camera.position.z = THREE.MathUtils.damp(
+        state.camera.position.z,
+        pose.cameraPosition[2],
+        5,
+        delta,
+      )
+      targetRef.current.x = THREE.MathUtils.damp(targetRef.current.x, pose.target[0], 5, delta)
+      targetRef.current.y = THREE.MathUtils.damp(targetRef.current.y, pose.target[1], 5, delta)
+      targetRef.current.z = THREE.MathUtils.damp(targetRef.current.z, pose.target[2], 5, delta)
+      state.camera.lookAt(targetRef.current)
+    }
   })
 
   return (
@@ -228,8 +271,11 @@ function ExplorerCamera() {
 }
 
 export function ProductScene() {
+  const controlsRef = useRef<OrbitControlsImpl>(null)
+  const sceneElementRef = useRef<HTMLDivElement>(null)
+
   return (
-    <div className="scroll-scene" aria-hidden="true">
+    <div ref={sceneElementRef} className="scroll-scene" aria-hidden="true">
       <Canvas
         dpr={[1, 1.75]}
         camera={{ position: [0, 0.25, 9.5], fov: 36 }}
@@ -237,8 +283,20 @@ export function ProductScene() {
       >
         <StudioLighting />
         <Suspense fallback={null}>
-          <FloatingProduct />
+          <FloatingProduct
+            controlsRef={controlsRef}
+            sceneElementRef={sceneElementRef}
+          />
         </Suspense>
+        <OrbitControls
+          ref={controlsRef}
+          enableDamping
+          enablePan={false}
+          enableZoom={false}
+          dampingFactor={0.08}
+          minPolarAngle={Math.PI / 5}
+          maxPolarAngle={Math.PI / 1.75}
+        />
       </Canvas>
     </div>
   )

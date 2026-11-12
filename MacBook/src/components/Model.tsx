@@ -340,7 +340,9 @@ function addKeyboardLegends(object: THREE.Group) {
       keys.filter(({ position }) => Math.abs(position.x - row.x) < 2).length,
     ),
   );
-  const allLabels = [...new Set([...labels, ...Object.values(additionalKeyLegends)])];
+  const allLabels = [
+    ...new Set([...labels, ...Object.values(additionalKeyLegends)]),
+  ];
   const { texture, uvFor, aspectFor } = createKeyboardLegendAtlas(allLabels);
   const legendMaterial = new THREE.MeshBasicMaterial({
     map: texture,
