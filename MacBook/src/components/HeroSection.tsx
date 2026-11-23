@@ -3,6 +3,20 @@ import { motion } from "framer-motion";
 export function HeroSection() {
   return (
     <section className="hero-section" id="top">
+      <div className="landing-hero-seal" aria-hidden="true">
+        <span>MB</span>
+        <i />
+        <small>PRO</small>
+        <b />
+      </div>
+      <div className="landing-coordinate landing-coordinate-left" aria-hidden="true">
+        <span />
+        <small>37.3318° N</small>
+      </div>
+      <div className="landing-coordinate landing-coordinate-right" aria-hidden="true">
+        <small>122.0305° W</small>
+        <span />
+      </div>
       <motion.div
         className="hero-copy"
         initial={{ opacity: 0, y: 24 }}
