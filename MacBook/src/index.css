@@ -823,16 +823,16 @@ body:has(.scroll-scene--inverted) .top-links {
   inset: -28px -44px;
   border: 1px solid rgba(255, 255, 255, 0.46);
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.52);
   box-shadow: 0 16px 48px rgba(48, 60, 78, 0.06);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
   pointer-events: none;
 }
 
 .story-section--inverted .story-glass {
   border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(24, 27, 33, 0.38);
+  background: rgba(24, 27, 33, 0.46);
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
 }
 
