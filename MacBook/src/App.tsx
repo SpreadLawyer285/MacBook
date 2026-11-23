@@ -4,12 +4,18 @@ import { Navigation } from './components/Navigation'
 import { ProductDetailsPage } from './components/ProductDetailsPage'
 import { ProductScene } from './components/ProductScene'
 import { StorySection } from './components/StorySection'
+import { AppleMark } from './components/AppleMark'
+import { WelcomeIntro } from './components/WelcomeIntro'
 
 function App() {
   const isProductPage = window.location.pathname.replace(/\/$/, '') === '/product'
 
   return (
-    <div className="page-shell">
+    <div className={`page-shell${isProductPage ? ' page-shell--details' : ' page-shell--landing'}`}>
+      <WelcomeIntro />
+      <div className="apple-page-seal" aria-hidden="true">
+        <AppleMark />
+      </div>
       <Navigation productPage={isProductPage} />
 
       {isProductPage ? (

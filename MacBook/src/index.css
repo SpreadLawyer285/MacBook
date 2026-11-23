@@ -62,6 +62,129 @@ button {
   overflow: clip;
 }
 
+.apple-page-seal {
+  position: fixed;
+  z-index: 0;
+  top: 42%;
+  left: 50%;
+  width: clamp(180px, 22vw, 320px);
+  aspect-ratio: 384 / 512;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  color: var(--landing-seal-color);
+  opacity: 0.035;
+  pointer-events: none;
+}
+
+.apple-page-seal svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.page-shell--details .apple-page-seal {
+  top: 38%;
+  color: var(--details-seal-color);
+  opacity: 0.04;
+  transform: translate(-50%, -50%) rotate(7deg);
+}
+
+.welcome-intro {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(255, 255, 255, 0.98), transparent 38%),
+    linear-gradient(145deg, #f8faff, #edf2f8);
+  animation: welcome-intro-exit 2.4s ease-in-out forwards;
+  pointer-events: none;
+}
+
+.welcome-intro-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: welcome-intro-arrive 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.welcome-intro-kicker,
+.welcome-intro-caption {
+  color: #777f8c;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.welcome-intro-logo {
+  width: 58px;
+  height: 76px;
+  margin: 26px 0 18px;
+  fill: #236bd4;
+  filter: drop-shadow(0 10px 24px rgba(35, 107, 212, 0.16));
+}
+
+.welcome-intro-content h1 {
+  margin: 0;
+  color: #1d1d1f;
+  font-size: clamp(2.7rem, 8vw, 5rem);
+  font-weight: 650;
+  letter-spacing: -0.075em;
+  line-height: 1;
+}
+
+.welcome-intro-caption {
+  margin-top: 20px;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+}
+
+.welcome-intro-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(35, 107, 212, 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.welcome-intro-orbit-outer {
+  width: min(78vw, 620px);
+  box-shadow: 0 0 0 28px rgba(35, 107, 212, 0.018);
+}
+
+.welcome-intro-orbit-inner {
+  width: min(54vw, 420px);
+  border-style: dashed;
+  animation: seal-dash-spin 32s linear infinite;
+}
+
+.welcome-intro-spark {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3478df;
+  box-shadow: 0 0 16px rgba(52, 120, 223, 0.48);
+}
+
+.welcome-intro-spark-one {
+  top: 27%;
+  left: 27%;
+}
+
+.welcome-intro-spark-two {
+  right: 24%;
+  bottom: 29%;
+  width: 4px;
+  height: 4px;
+  background: #21845d;
+  box-shadow: 0 0 14px rgba(33, 132, 93, 0.4);
+}
+
 .topbar {
   position: fixed;
   z-index: 10;
@@ -247,6 +370,7 @@ body:has(.scroll-scene--inverted) .top-links {
   font-weight: 700;
   letter-spacing: 0.12em;
 }
+
 
 .landing-hero-seal i {
   width: 28px;
@@ -650,9 +774,10 @@ body:has(.scroll-scene--inverted) .top-links {
   position: absolute;
   width: 20px;
   height: 20px;
-  border: 1px solid color-mix(in srgb, var(--story-seal-color) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--story-seal-color) 24%, transparent);
   transform: rotate(45deg);
 }
+
 
 .story-seal b {
   position: absolute;
@@ -895,6 +1020,7 @@ body:has(.scroll-scene--inverted) .top-links {
   font-size: 0.75rem;
 }
 
+
 .product-details {
   padding-top: 100px;
 }
@@ -1041,6 +1167,7 @@ body:has(.scroll-scene--inverted) .top-links {
   border: 1px solid color-mix(in srgb, var(--details-seal-color) 19%, transparent);
   transform: rotate(45deg);
 }
+
 
 .details-hero-seal span,
 .details-hero-seal small {
@@ -1434,9 +1561,9 @@ body:has(.scroll-scene--inverted) .top-links {
   margin-top: 140px;
   padding: 120px 24px;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 70%, rgba(220, 232, 249, 0.9), transparent 55%),
-    #f6f7f9;
+  background: transparent;
+    /* radial-gradient(ellipse at 50% 70%, rgba(220, 232, 249, 0.9), transparent 55%),
+    #f6f7f9; */
   text-align: center;
 }
 
@@ -1902,6 +2029,26 @@ body:has(.scroll-scene--inverted) .top-links {
 @keyframes grid-drift {
   to {
     background-position: 88px 88px;
+  }
+}
+
+@keyframes welcome-intro-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes welcome-intro-exit {
+  0%, 74% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 

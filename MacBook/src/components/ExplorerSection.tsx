@@ -28,7 +28,7 @@ export function ExplorerSection() {
               aria-pressed={!lidOpen}
               onClick={() => setLidOpen((open) => !open)}
             >
-              <span aria-hidden="true">{lidOpen ? '⌄' : '⌃'}</span>
+              <span aria-hidden="true">{lidOpen ? '↓' : '↑'}</span>
               {lidOpen ? 'Close laptop' : 'Open laptop'}
             </button>
             <button
