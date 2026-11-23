@@ -1360,6 +1360,103 @@ body:has(.scroll-scene--inverted) .top-links {
   text-align: center;
 }
 
+.order-hero::before,
+.order-hero::after {
+  position: absolute;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.order-hero::before {
+  top: 14%;
+  bottom: 14%;
+  left: 7%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(33, 132, 93, 0.2) 28%,
+    rgba(23, 105, 224, 0.14) 72%,
+    transparent
+  );
+}
+
+.order-hero::after {
+  top: 16%;
+  right: 8%;
+  width: clamp(100px, 14vw, 170px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(33, 132, 93, 0.1);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 12px rgba(23, 105, 224, 0.018),
+    0 0 0 13px rgba(23, 105, 224, 0.055);
+}
+
+.order-hero > .order-hero-seal {
+  position: absolute;
+  z-index: 2;
+  top: 20%;
+  left: 12%;
+  display: flex;
+  width: 76px;
+  height: 76px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid rgba(33, 132, 93, 0.24);
+  border-radius: 50%;
+  color: #21845d;
+  transform: rotate(-8deg);
+}
+
+.order-hero-seal::before,
+.order-hero-seal::after {
+  position: absolute;
+  border-radius: 50%;
+  content: "";
+}
+
+.order-hero-seal::before {
+  inset: 6px;
+  border: 1px dashed rgba(33, 132, 93, 0.3);
+}
+
+.order-hero-seal::after {
+  top: -5px;
+  right: 10px;
+  width: 7px;
+  height: 7px;
+  background: #1769e0;
+  box-shadow: 0 0 0 4px rgba(23, 105, 224, 0.12);
+}
+
+.order-hero-seal strong,
+.order-hero-seal small {
+  position: relative;
+  z-index: 1;
+  background: #f7f8f9;
+}
+
+.order-hero-seal strong {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.order-hero-seal i {
+  width: 25px;
+  height: 1px;
+  background: rgba(33, 132, 93, 0.35);
+}
+
+.order-hero-seal small {
+  color: #7d8999;
+  font-size: 0.38rem;
+  letter-spacing: 0.1em;
+}
+
 .order-hero-art {
   position: absolute;
   z-index: -1;
@@ -1466,6 +1563,20 @@ body:has(.scroll-scene--inverted) .top-links {
 
 .order-options-card {
   padding: clamp(24px, 4vw, 48px);
+  background:
+    radial-gradient(
+      circle at calc(100% - 42px) 42px,
+      transparent 0 25px,
+      rgba(33, 132, 93, 0.12) 25.5px 26.5px,
+      transparent 27px
+    ),
+    radial-gradient(
+      circle at calc(100% - 42px) 42px,
+      transparent 0 41px,
+      rgba(23, 105, 224, 0.07) 41.5px 42.5px,
+      transparent 43px
+    ),
+    rgba(255, 255, 255, 0.82);
 }
 
 .order-section-heading .eyebrow {
@@ -2319,10 +2430,29 @@ body:has(.scroll-scene--inverted) .top-links {
 
 .details-introduction {
   position: relative;
+  isolation: isolate;
   max-width: 850px;
   margin: 0 auto;
   padding: 140px 28px 112px;
   text-align: center;
+}
+
+.details-introduction::after {
+  position: absolute;
+  z-index: -1;
+  top: 38%;
+  left: -138px;
+  width: 250px;
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--details-orbit-color) 12%, transparent);
+  border-radius: 47% 53% 54% 46% / 52% 46% 54% 48%;
+  box-shadow:
+    0 0 0 22px color-mix(in srgb, var(--details-orbit-color) 2%, transparent),
+    0 0 0 23px color-mix(in srgb, var(--details-orbit-color) 7%, transparent),
+    0 0 0 48px color-mix(in srgb, var(--details-feature-color) 2%, transparent),
+    0 0 0 49px color-mix(in srgb, var(--details-feature-color) 5%, transparent);
+  content: "";
+  pointer-events: none;
 }
 
 .details-introduction .eyebrow {
@@ -2957,6 +3087,22 @@ body:has(.scroll-scene--inverted) .top-links {
     width: 65vw;
   }
 
+  .order-hero > .order-hero-seal {
+    top: 16%;
+    left: 18px;
+    width: 58px;
+    height: 58px;
+    gap: 3px;
+  }
+
+  .order-hero-seal strong {
+    font-size: 0.54rem;
+  }
+
+  .order-hero-seal small {
+    font-size: 0.32rem;
+  }
+
   .order-builder {
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
@@ -3066,6 +3212,11 @@ body:has(.scroll-scene--inverted) .top-links {
 
   .details-introduction {
     padding: 100px 24px 76px;
+  }
+
+  .details-introduction::after {
+    left: -175px;
+    width: 210px;
   }
 
   .details-introduction h2,

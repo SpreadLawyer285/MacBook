@@ -168,6 +168,11 @@ export function OrderPage() {
   return (
     <main className="order-page">
       <section className="order-hero" id="order-top">
+        <div className="order-hero-seal" aria-hidden="true">
+          <strong>MP</strong>
+          <i />
+          <small>02 / 04</small>
+        </div>
         <p className="eyebrow">
           <span className="eyebrow-dot" /> Your next big idea starts here
         </p>
