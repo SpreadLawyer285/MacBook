@@ -15,6 +15,17 @@ export function WelcomeIntro() {
     <div className="welcome-intro" role="status" aria-label="Welcome to MacBook Pro">
       <div className="welcome-intro-orbit welcome-intro-orbit-outer" aria-hidden="true" />
       <div className="welcome-intro-orbit welcome-intro-orbit-inner" aria-hidden="true" />
+      <div className="welcome-intro-orbit welcome-intro-orbit-wide" aria-hidden="true" />
+      <div className="welcome-intro-detail welcome-intro-detail-left" aria-hidden="true">
+        <span>01</span>
+        <i />
+        PRECISION
+      </div>
+      <div className="welcome-intro-detail welcome-intro-detail-right" aria-hidden="true">
+        STUDIO SERIES
+        <i />
+        <span>2026</span>
+      </div>
       <div className="welcome-intro-content">
         <span className="welcome-intro-kicker">A new perspective</span>
         <AppleMark className="welcome-intro-logo" />
@@ -23,6 +34,8 @@ export function WelcomeIntro() {
       </div>
       <span className="welcome-intro-spark welcome-intro-spark-one" aria-hidden="true" />
       <span className="welcome-intro-spark welcome-intro-spark-two" aria-hidden="true" />
+      <span className="welcome-intro-spark welcome-intro-spark-three" aria-hidden="true" />
+      <span className="welcome-intro-progress" aria-hidden="true"><span /></span>
     </div>
   )
 }

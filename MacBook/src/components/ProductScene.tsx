@@ -21,7 +21,7 @@ const sceneBeats: SceneBeat[] = [
     id: 'top',
     lidOpen: 0,
     inverted: 0,
-    position: [-0.2, 0.05, 0.25],
+    position: [-0.2, 0.05, -1.6],
     rotation: [0, 0.06, -0.42],
     cameraPosition: [9.5, 0.55, 0],
     target: [0, -1.35, 0],
@@ -30,8 +30,8 @@ const sceneBeats: SceneBeat[] = [
     id: 'design',
     lidOpen: 1,
     inverted: 0,
-    position: [-0.2, 0.3, 0],
-    rotation: [-0.1, -0.18, 0.02],
+    position: [1, 0.3, 0],
+    rotation: [-0.1, -0.8, -0.2],
     cameraPosition: [0, 0.3, 8.6],
     target: [0, 0, 0],
   },
@@ -48,8 +48,8 @@ const sceneBeats: SceneBeat[] = [
     id: 'trackpad',
     lidOpen: 1,
     inverted: 0,
-    position: [0.45, -0.22, 0],
-    rotation: [-0.12, -0.52, -0.02],
+    position: [1.5, -0.2, -0.4],
+    rotation: [-0.12, -0.5, -0.02],
     cameraPosition: [1.2, 3.3, 2],
     target: [1.2, -1.2, 0],
   },
@@ -57,8 +57,8 @@ const sceneBeats: SceneBeat[] = [
     id: 'ports',
     lidOpen: 0,
     inverted: 0,
-    position: [0.22, -0.05, 0],
-    rotation: [0.05, 1.28, 0],
+    position: [1, -0.05, 0],
+    rotation: [1, 1.8, 0],
     cameraPosition: [1, 0.5, 7.1],
     target: [0, 0, 0],
   },
@@ -66,8 +66,8 @@ const sceneBeats: SceneBeat[] = [
     id: 'rotation',
     lidOpen: 1,
     inverted: 1,
-    position: [0.12, 0.05, 0],
-    rotation: [0.16, 3.45, 0.02],
+    position: [1, 0.05, 0],
+    rotation: [0.16, 4, 0.02],
     cameraPosition: [0, 0.5, 8.4],
     target: [0, 0, 0],
   },
@@ -75,8 +75,8 @@ const sceneBeats: SceneBeat[] = [
     id: 'pro-line',
     lidOpen: 1,
     inverted: 1,
-    position: [0.12, 0.05, 0],
-    rotation: [0.16, 3.45, 0.02],
+    position: [1, 0.05, 0],
+    rotation: [0.16, 4, 0.02],
     cameraPosition: [0, 0.5, 8.4],
     target: [0, 0, 0],
   },
@@ -136,10 +136,12 @@ function getCurrentBeat(): SceneBeat {
 function FloatingProduct({
   interactive = false,
   lidOpen = interactive ? 1 : 0,
+  finishColor,
   sceneElementRef,
 }: {
   interactive?: boolean
   lidOpen?: number
+  finishColor?: string
   sceneElementRef?: RefObject<HTMLDivElement | null>
 }) {
   const productRef = useRef<THREE.Group>(null)
@@ -221,6 +223,7 @@ function FloatingProduct({
         targetSize={4.25}
         lidOpenRef={lidOpenRef}
         interactive={interactive}
+        finishColor={finishColor}
       />
     </group>
   )
@@ -278,6 +281,7 @@ export function ProductScene() {
 type ExplorerCanvasProps = {
   resetToken: number
   lidOpen: number
+  finishColor?: string
 }
 
 const defaultExplorerCameraPosition = new THREE.Vector3(4, 2.1, 7.6)
@@ -339,7 +343,11 @@ function ExplorerViewReset({
   return null
 }
 
-export function ExplorerCanvas({ resetToken, lidOpen }: ExplorerCanvasProps) {
+export function ExplorerCanvas({
+  resetToken,
+  lidOpen,
+  finishColor,
+}: ExplorerCanvasProps) {
   const controlsRef = useRef<OrbitControlsImpl>(null)
 
   return (
@@ -350,7 +358,11 @@ export function ExplorerCanvas({ resetToken, lidOpen }: ExplorerCanvasProps) {
       <StudioLighting />
       <ExplorerCamera />
       <Suspense fallback={null}>
-        <FloatingProduct interactive lidOpen={lidOpen} />
+        <FloatingProduct
+          interactive
+          lidOpen={lidOpen}
+          finishColor={finishColor}
+        />
       </Suspense>
       <OrbitControls
         ref={controlsRef}

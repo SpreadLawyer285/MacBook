@@ -5,6 +5,7 @@ type StorySectionProps = {
   title: string
   description: string
   inverted?: boolean
+  seal?: string
 }
 
 export function StorySection({
@@ -14,6 +15,7 @@ export function StorySection({
   title,
   description,
   inverted = false,
+  seal,
 }: StorySectionProps) {
   return (
     <section
@@ -31,6 +33,14 @@ export function StorySection({
         ))}
       </div>
       <div className="story-copy">
+        <div className="story-glass" aria-hidden="true" />
+        {seal && (
+          <div className="story-card-seal" aria-hidden="true">
+            <span>✦</span>
+            <strong>{seal}</strong>
+            <small>MACBOOK PRO</small>
+          </div>
+        )}
         <p className="story-number">{number}<span /></p>
         <p className="eyebrow">{eyebrow}</p>
         <h2>{title}</h2>

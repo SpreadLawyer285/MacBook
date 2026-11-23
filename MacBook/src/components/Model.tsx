@@ -11,6 +11,7 @@ type ModelProps = {
   lidOpen?: number;
   lidOpenRef?: { current: number };
   interactive?: boolean;
+  finishColor?: string;
 };
 
 const keyboardLegendRows = [
@@ -133,6 +134,7 @@ export function Model({
   lidOpen = 1,
   lidOpenRef,
   interactive = false,
+  finishColor,
 }: ModelProps) {
   const source = useLoader(FBXLoader, url);
   const lidPivotRef = useRef<THREE.Group>(null);
@@ -221,6 +223,26 @@ export function Model({
   useEffect(() => {
     lidPivotRef.current = model.lidPivot;
   }, [model]);
+
+  useEffect(() => {
+    if (!finishColor) return;
+
+    for (const meshName of ["Plane", "Plane001", "Plane002", "Plane004"]) {
+      const mesh = model.object.getObjectByName(meshName);
+      if (!(mesh instanceof THREE.Mesh)) continue;
+
+      const materials = Array.isArray(mesh.material)
+        ? mesh.material
+        : [mesh.material];
+      materials
+        .filter(
+          (material) =>
+            material.name === "Material" ||
+            (meshName === "Plane" && material.name === "Material.004"),
+        )
+        .forEach((material) => setMaterialColor(material, finishColor));
+    }
+  }, [finishColor, model]);
 
   useEffect(() => {
     if (!interactive) return;

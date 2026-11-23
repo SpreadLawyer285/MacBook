@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export function HeroSection() {
   return (
@@ -23,6 +24,7 @@ export function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.05, delay: 0.05, ease: "easeOut" }}
       >
+        <div className="story-glass" aria-hidden="true" />
         <p className="eyebrow">
           <span className="eyebrow-dot" /> The MacBook experience
         </p>
@@ -35,12 +37,17 @@ export function HeroSection() {
           Thoughtful design meets the freedom to create, work, and go wherever
           inspiration takes you.
         </p>
-        <a className="scroll-cue" href="#design">
-          <span className="scroll-cue-icon" aria-hidden="true">
-            ↓
-          </span>
-          <span>Discover the details</span>
-        </a>
+        <div className="hero-actions">
+          <a className="scroll-cue" href="#design">
+            <span className="scroll-cue-icon" aria-hidden="true">
+              ↓
+            </span>
+            <span>Discover the details</span>
+          </a>
+          <Link className="nav-cta" to="/order">
+            Configure yours <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       </motion.div>
       <div className="hero-caption" aria-hidden="true">
         <span>Lightness, in every dimension.</span>

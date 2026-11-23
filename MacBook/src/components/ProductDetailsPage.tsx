@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const productHighlights = [
   {
     number: "01",
@@ -6,6 +8,7 @@ const productHighlights = [
     description:
       "A clean silhouette, carefully considered edges, and a finish that feels just as at home on your desk as it does on the move.",
     details: ["Precision aluminum", "Quietly portable", "Four finishes"],
+    seal: "CRAFTED",
     image: "/Macbook1.png",
     alt: "MacBook Pro closed, showing its slim profile and clean aluminum finish",
     className: "details-feature-closed",
@@ -28,6 +31,7 @@ const productHighlights = [
     description:
       "From the hinge to the ports along the edge, every part of the design feels considered, cohesive, and ready for everyday use.",
     details: ["Balanced hinge", "Studio-quality camera", "Essential ports"],
+    seal: "PRECISE",
     image: "/Macbook3.png",
     alt: "MacBook Pro viewed from behind, with its display open",
     className: "details-feature-back",
@@ -44,7 +48,7 @@ const designDetails = [
 export function ProductDetailsPage() {
   return (
     <main className="product-details">
-      <section className="details-hero">
+      <section className="details-hero" id="details-top">
         <div className="details-hero-seal details-hero-seal-left" aria-hidden="true">
           <span>MP</span>
           <i />
@@ -87,6 +91,9 @@ export function ProductDetailsPage() {
           </span>
           <span>Get to know your MacBook</span>
         </a>
+        <Link className="nav-cta details-order-cta" to="/order">
+          Configure your MacBook <span aria-hidden="true">→</span>
+        </Link>
         <br />
         <div className="details-hero-image">
           <img src="/Macbook6.png" alt="MacBook Pro open and ready to use" />
@@ -123,6 +130,7 @@ export function ProductDetailsPage() {
 
       <section
         className="details-highlights"
+        id="details-highlights"
         aria-label="MacBook Pro design highlights"
       >
         <div className="details-highlights-rule" aria-hidden="true">
@@ -144,10 +152,18 @@ export function ProductDetailsPage() {
                 {highlight.number}
               </span>
             </div>
+            {highlight.seal && (
+              <span className="details-feature-seal" aria-hidden="true">
+                <span>✦</span>
+                <strong>{highlight.seal}</strong>
+                <small>MACBOOK PRO</small>
+              </span>
+            )}
             <div className="details-feature-copy">
               <p className="details-feature-number">{highlight.number}</p>
               <p className="eyebrow">{highlight.eyebrow}</p>
               <h2>{highlight.title}</h2>
+              <br />
               <p>{highlight.description}</p>
               <ul className="details-feature-tags" aria-label="Feature details">
                 {highlight.details.map((detail) => (
@@ -159,7 +175,7 @@ export function ProductDetailsPage() {
         ))}
       </section>
 
-      <section className="details-bottom">
+      <section className="details-bottom" id="details-model">
         <div className="details-bottom-orbit" aria-hidden="true">
           <span />
           <i />
@@ -181,6 +197,9 @@ export function ProductDetailsPage() {
             <a className="nav-cta" href="/#explore">
               Explore the model <span aria-hidden="true">→</span>
             </a>
+            <Link className="nav-cta order-secondary-cta" to="/order">
+              Configure yours <span aria-hidden="true">→</span>
+            </Link>
             <span className="details-action-note">
               <i aria-hidden="true" />
               Interactive 360° view

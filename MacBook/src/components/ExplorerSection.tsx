@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { ExplorerCanvas } from './ProductScene'
 
 export function ExplorerSection() {
@@ -11,6 +12,9 @@ export function ExplorerSection() {
         <p className="eyebrow">Take a closer look</p>
         <h2>Explore MacBook Pro.</h2>
         <p>Move around the details. Find your own angle.</p>
+        <Link className="nav-cta explorer-order-cta" to="/order">
+          Make it yours <span aria-hidden="true">→</span>
+        </Link>
       </div>
       <div className="explorer-card">
         <div className="explorer-canvas">
